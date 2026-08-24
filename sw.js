@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bar-mitzva-calculator-v1';
+const CACHE_NAME = 'bar-mitzva-calculator-v2';
 const APP_SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {

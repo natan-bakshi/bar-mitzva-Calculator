@@ -8,12 +8,12 @@
   "scope": "./",
   "display": "standalone",
   "background_color": "#fbf6ed",
-  "theme_color": "#fbf6ed",
+  "theme_color": "#6d1020",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "https://i.postimg.cc/0N2C7dp6/a584c6eb-bf62-47be-af6f-b1a32ee4cff5.jpg",
+      "sizes": "800x800",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
