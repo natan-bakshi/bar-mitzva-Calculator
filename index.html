@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מחשבון בר מצווה | שירת הנבל</title>
+    <meta name="theme-color" content="#fbf6ed">
+    <meta name="description" content="מחשבון בר מצווה לחישוב התאריך העברי, התאריך הלועזי ופרשת השבוע.">
+    <link rel="manifest" href="manifest.webmanifest">
     
     <!-- Favicon (הלוגו עם הרקע הלבן) -->
     <link rel="icon" href="https://i.postimg.cc/0N2C7dp6/a584c6eb-bf62-47be-af6f-b1a32ee4cff5.jpg" type="image/jpeg">
     
     <!-- פונט קלאסי ויוקרתי שמתאים לאירועים וקודש -->
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Noto+Serif+Hebrew:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS מבוסס CDN ללא צורך בהתקנה -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- ספריית Hebcal לחישובי תאריכים דרך CDN -->
-    <script src="https://unpkg.com/@hebcal/core@4.3.0/dist/hebcal.min.js"></script>
+    <script src="https://unpkg.com/@hebcal/core@4.3.0/dist/bundle.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -23,17 +26,17 @@
                 extend: {
                     colors: {
                         wine: {
-                            900: '#2b040e',
-                            800: '#4a0b18',
-                            700: '#5e1324',
-                            600: '#7a1a31',
+                            900: '#fffaf2',
+                                800: '#f1e2cc',
+                                700: '#e5cfaa',
+                                600: '#d4af66',
                         },
                         gold: {
-                            200: '#fbe9b6',
-                            300: '#f9d77e',
-                            400: '#e6c35c',
-                            500: '#d4af37',
-                            600: '#b5952f',
+                                200: '#6b4a1e',
+                                300: '#93671e',
+                                400: '#c18a2d',
+                                500: '#a66f12',
+                                600: '#80550e',
                         }
                     },
                     fontFamily: {
@@ -48,9 +51,9 @@
     <style>
         body {
             /* רקע עמוק ויוקרתי בצבעי יין */
-            background: radial-gradient(circle at top, #5e1324 0%, #2b040e 80%);
-            color: #d4af37;
-            font-family: 'Frank Ruhl Libre', serif;
+            background: linear-gradient(135deg, #fbf6ed 0%, #f4ead8 52%, #fffdf9 100%);
+            color: #6b4a1e;
+            font-family: 'Noto Serif Hebrew', 'Frank Ruhl Libre', serif;
             min-height: 100vh;
             margin: 0;
             display: flex;
@@ -58,14 +61,14 @@
         }
         
         .glass-panel {
-            background: rgba(43, 4, 14, 0.6);
+            background: rgba(255, 253, 249, 0.82);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(166, 111, 18, 0.22);
+            box-shadow: 0 25px 50px -20px rgba(101, 70, 27, 0.28), inset 0 0 20px rgba(255, 255, 255, 0.8);
         }
         
         .gold-text-gradient {
-            background: linear-gradient(to right, #fbe9b6, #d4af37, #fbe9b6);
+            background: linear-gradient(to right, #80550e, #c18a2d, #80550e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 15px rgba(212,175,55,0.2);
@@ -78,7 +81,21 @@
         }
 
         .input-focus-ring:focus {
-            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 0 2px rgba(166, 111, 18, 0.28);
+        }
+
+        input[type="date"] { color: #4b351d; color-scheme: light; }
+        input[type="checkbox"] { accent-color: #a66f12; }
+        @media (max-width: 420px) {
+            body { padding-top: 1rem; padding-bottom: 1rem; }
+            main { padding: 1.25rem; margin-top: 0; border-radius: 1.25rem; }
+            main img { width: 10rem; }
+            h1 { font-size: 2.1rem !important; line-height: 1.2; }
+            form label { font-size: 1rem !important; }
+            form input[type="date"] { padding: 0.75rem; font-size: 1rem; }
+            #result-container { margin-top: 1.5rem; }
+            #res-bm-heb { font-size: 1.75rem; }
+            #result-container .grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -198,13 +215,14 @@
         function calculateBarMitzvah(gregorianDate, isAfterSunset) {
             const { HDate, Sedra } = window.hebcal;
 
-            let birthDateObj = new Date(gregorianDate);
+            const [year, month, day] = gregorianDate.split('-').map(Number);
+            const birthDateObj = new Date(year, month - 1, day);
 
             if (isAfterSunset) {
                 birthDateObj.setDate(birthDateObj.getDate() + 1);
             }
 
-            const birthHDate = new HDate(birthDateObj);
+            const birthHDate = hebrewDateFromGregorian(birthDateObj);
             const birthYear = birthHDate.getFullYear();
             const birthMonth = birthHDate.getMonthName();
             let birthDay = birthHDate.getDate();
@@ -230,7 +248,7 @@
             
             // מקרה קצה: ל' חשוון / כסלו בשנים חסרות
             if (birthDay === 30 && (bmMonth === 'Cheshvan' || bmMonth === 'Kislev')) {
-                const daysInBmMonth = HDate.daysInMonth(bmMonth, bmYear);
+                const daysInBmMonth = new HDate(1, bmMonth, bmYear).daysInMonth();
                 if (daysInBmMonth === 29) {
                     bmMonth = bmMonth === 'Cheshvan' ? 'Kislev' : 'Tevet';
                     birthDay = 1;
@@ -244,7 +262,7 @@
             const daysToSaturday = (6 - bmGregorianDate.getDay()) % 7;
             const shabbatDate = new Date(bmGregorianDate);
             shabbatDate.setDate(shabbatDate.getDate() + daysToSaturday);
-            const shabbatHDate = new HDate(shabbatDate);
+            const shabbatHDate = hebrewDateFromGregorian(shabbatDate);
 
             const sedra = new Sedra(shabbatHDate.getFullYear(), true); // true = מנהג ארץ ישראל
             const parasha = sedra.getString(shabbatHDate, 'he');
@@ -252,9 +270,24 @@
             return {
                 birthHebrewDate: birthHDate.renderGematriya(),
                 barMitzvahHebrewDate: bmHDate.renderGematriya(),
-                barMitzvahGregorianDate: bmGregorianDate.toISOString().split('T')[0],
+                barMitzvahGregorianDate: formatGregorianDate(bmGregorianDate),
                 parashatHashavua: parasha || "שבת מיוחדת"
             };
+        }
+
+        function hebrewDateFromGregorian(date) {
+            const absoluteDate = window.hebcal.greg.greg2abs(date);
+            const hebrewDate = window.hebcal.HDate.abs2hebrew(absoluteDate);
+            return new window.hebcal.HDate(hebrewDate.dd, hebrewDate.mm, hebrewDate.yy);
+        }
+
+        function formatGregorianDate(date) {
+            const pad = value => String(value).padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
         }
     </script>
 </body>
