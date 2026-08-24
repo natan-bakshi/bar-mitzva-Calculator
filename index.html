@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון בר מצווה | שירת הנבל</title>
+    
+    <!-- Favicon (הלוגו עם הרקע הלבן) -->
+    <link rel="icon" href="https://i.postimg.cc/0N2C7dp6/a584c6eb-bf62-47be-af6f-b1a32ee4cff5.jpg" type="image/jpeg">
+    
+    <!-- פונט קלאסי ויוקרתי שמתאים לאירועים וקודש -->
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS מבוסס CDN ללא צורך בהתקנה -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- ספריית Hebcal לחישובי תאריכים דרך CDN -->
+    <script src="https://unpkg.com/@hebcal/core@4.3.0/dist/hebcal.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wine: {
+                            900: '#2b040e',
+                            800: '#4a0b18',
+                            700: '#5e1324',
+                            600: '#7a1a31',
+                        },
+                        gold: {
+                            200: '#fbe9b6',
+                            300: '#f9d77e',
+                            400: '#e6c35c',
+                            500: '#d4af37',
+                            600: '#b5952f',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Frank Ruhl Libre"', 'serif'],
+                        sans: ['system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            /* רקע עמוק ויוקרתי בצבעי יין */
+            background: radial-gradient(circle at top, #5e1324 0%, #2b040e 80%);
+            color: #d4af37;
+            font-family: 'Frank Ruhl Libre', serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .glass-panel {
+            background: rgba(43, 4, 14, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.05);
+        }
+        
+        .gold-text-gradient {
+            background: linear-gradient(to right, #fbe9b6, #d4af37, #fbe9b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 15px rgba(212,175,55,0.2);
+        }
+        
+        /* עיצוב מותאם של האייקון בלוח השנה */
+        ::-webkit-calendar-picker-indicator { 
+            filter: invert(75%) sepia(45%) saturate(700%) hue-rotate(1deg) brightness(95%) contrast(85%); 
+            cursor: pointer; 
+        }
+
+        .input-focus-ring:focus {
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+        }
+    </style>
+</head>
+<body class="items-center justify-between py-10 px-4 sm:px-6">
+
+    <main class="w-full max-w-lg glass-panel rounded-3xl p-8 sm:p-10 mt-6 mx-auto relative overflow-hidden">
+        
+        <!-- אפקטים זוהרים ברקע הכרטיס -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-50"></div>
+        
+        <!-- לוגו משתלב - הלוגו עם רקע היין שבחרת -->
+        <div class="flex justify-center mb-8 relative">
+            <div class="absolute inset-0 bg-gold-500 blur-[40px] opacity-10 rounded-full"></div>
+            <img src="https://i.postimg.cc/h4mfN3B7/Whats-App-Image-2024-05-01-at-13-19-48-(1).jpg" alt="הפקת אירועים שירת הנבל" class="w-56 rounded-xl drop-shadow-2xl relative z-10">
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-black text-center mb-8 gold-text-gradient tracking-tight">מחשבון בר מצווה</h1>
+        
+        <form id="calculator-form" class="space-y-6">
+            <div>
+                <label for="birth-date" class="block text-xl mb-3 font-medium text-gold-200">תאריך לידה לועזי:</label>
+                <input type="date" id="birth-date" required
+                    class="w-full bg-wine-900/80 border border-gold-500/40 rounded-xl p-4 text-xl text-white outline-none focus:border-gold-400 transition-all shadow-inner input-focus-ring">
+            </div>
+
+            <div class="flex items-center space-x-4 space-x-reverse bg-wine-900/50 p-4 rounded-xl border border-gold-500/20 hover:border-gold-500/40 transition-colors cursor-pointer" onclick="document.getElementById('after-sunset').click()">
+                <input type="checkbox" id="after-sunset" 
+                    class="w-6 h-6 accent-gold-500 rounded cursor-pointer border-gold-500/50">
+                <label for="after-sunset" class="text-lg font-medium cursor-pointer select-none text-gold-200">
+                    הלידה התרחשה לאחר השקיעה
+                </label>
+            </div>
+
+            <button type="submit" 
+                class="w-full py-4 mt-4 rounded-xl text-wine-900 font-bold text-2xl bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 hover:from-white hover:to-gold-300 transition-all duration-300 transform hover:-translate-y-1 shadow-[0_5px_25px_rgba(212,175,55,0.3)]">
+                חשב תאריך
+            </button>
+        </form>
+
+        <div id="result-container" class="mt-10 hidden opacity-0 transition-opacity duration-700 ease-in-out">
+            <div class="border-t border-gold-500/20 pt-8 space-y-5">
+                <h2 class="text-2xl font-bold text-center mb-6 text-gold-300 flex items-center justify-center gap-3">
+                    <span class="w-12 h-px bg-gold-500/40"></span>
+                    תוצאות החישוב
+                    <span class="w-12 h-px bg-gold-500/40"></span>
+                </h2>
+                
+                <div class="bg-wine-900/60 p-5 rounded-xl border border-gold-500/10">
+                    <span class="block text-sm text-gold-500/70 mb-1 font-sans">תאריך הלידה העברי</span>
+                    <span id="res-birth-heb" class="text-xl font-bold text-gold-200"></span>
+                </div>
+
+                <div class="bg-wine-800/80 p-6 rounded-xl border border-gold-500/40 shadow-[0_0_30px_rgba(212,175,55,0.15)] relative overflow-hidden transform hover:scale-[1.02] transition-transform">
+                    <div class="absolute top-0 right-0 w-1.5 h-full bg-gradient-to-b from-gold-300 to-gold-600"></div>
+                    <span class="block text-sm text-gold-500/80 mb-2 font-sans tracking-wide">תאריך הבר מצווה (עברי)</span>
+                    <span id="res-bm-heb" class="text-3xl sm:text-4xl font-black gold-text-gradient"></span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-wine-900/60 p-5 rounded-xl border border-gold-500/10">
+                        <span class="block text-sm text-gold-500/70 mb-1 font-sans">תאריך לועזי</span>
+                        <span id="res-bm-greg" class="text-xl font-bold text-gold-200 font-sans tracking-wider"></span>
+                    </div>
+                    <div class="bg-wine-900/60 p-5 rounded-xl border border-gold-500/10">
+                        <span class="block text-sm text-gold-500/70 mb-1 font-sans">פרשת השבוע</span>
+                        <span id="res-parasha" class="text-xl font-bold text-gold-200"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- פוטר לפי הבקשה המדויקת -->
+    <footer class="mt-auto py-8 text-center flex flex-col items-center justify-center">
+        <p class="text-gold-500/60 font-sans tracking-widest text-sm hover:text-gold-400 transition-colors">
+            &copy; Created by Nathan Bakshi 2026
+        </p>
+    </footer>
+
+    <script>
+        document.getElementById('calculator-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const gregorianDate = document.getElementById('birth-date').value;
+            const isAfterSunset = document.getElementById('after-sunset').checked;
+            
+            if (!gregorianDate) return;
+
+            try {
+                const result = calculateBarMitzvah(gregorianDate, isAfterSunset);
+                
+                document.getElementById('res-birth-heb').textContent = result.birthHebrewDate;
+                document.getElementById('res-bm-heb').textContent = result.barMitzvahHebrewDate;
+                
+                // עיצוב התאריך הלועזי לתצוגה יפה (DD/MM/YYYY)
+                const parts = result.barMitzvahGregorianDate.split('-');
+                const formattedGreg = `${parts[2]}/${parts[1]}/${parts[0]}`;
+                document.getElementById('res-bm-greg').textContent = formattedGreg;
+                
+                document.getElementById('res-parasha').textContent = result.parashatHashavua;
+
+                const resContainer = document.getElementById('result-container');
+                resContainer.classList.remove('hidden');
+                
+                // אנימציית הופעה עדינה
+                setTimeout(() => {
+                    resContainer.classList.remove('opacity-0');
+                }, 50);
+
+            } catch (error) {
+                console.error("Error calculating:", error);
+                alert("אירעה שגיאה בחישוב התאריך. ודא שהתאריך תקין.");
+            }
+        });
+
+        // הלוגיקה המדויקת שנכתבה קודם
+        function calculateBarMitzvah(gregorianDate, isAfterSunset) {
+            const { HDate, Sedra } = window.hebcal;
+
+            let birthDateObj = new Date(gregorianDate);
+
+            if (isAfterSunset) {
+                birthDateObj.setDate(birthDateObj.getDate() + 1);
+            }
+
+            const birthHDate = new HDate(birthDateObj);
+            const birthYear = birthHDate.getFullYear();
+            const birthMonth = birthHDate.getMonthName();
+            let birthDay = birthHDate.getDate();
+
+            const bmYear = birthYear + 13;
+            const isBmYearLeap = HDate.isLeapYear(bmYear);
+            let bmMonth = birthMonth;
+
+            // לוגיקת חודש אדר
+            if (birthMonth === 'Adar I') {
+                bmMonth = isBmYearLeap ? 'Adar I' : 'Adar';
+            } else if (birthMonth === 'Adar II') {
+                bmMonth = isBmYearLeap ? 'Adar II' : 'Adar';
+            } else if (birthMonth === 'Adar') {
+                bmMonth = isBmYearLeap ? 'Adar II' : 'Adar';
+            }
+
+            // מקרה קצה: נולד ל' אדר ואין ל' אדר בבר מצווה
+            if (birthDay === 30 && bmMonth === 'Adar') {
+                bmMonth = 'Nisan';
+                birthDay = 1;
+            }
+            
+            // מקרה קצה: ל' חשוון / כסלו בשנים חסרות
+            if (birthDay === 30 && (bmMonth === 'Cheshvan' || bmMonth === 'Kislev')) {
+                const daysInBmMonth = HDate.daysInMonth(bmMonth, bmYear);
+                if (daysInBmMonth === 29) {
+                    bmMonth = bmMonth === 'Cheshvan' ? 'Kislev' : 'Tevet';
+                    birthDay = 1;
+                }
+            }
+
+            const bmHDate = new HDate(birthDay, bmMonth, bmYear);
+            const bmGregorianDate = bmHDate.greg();
+
+            // איתור שבת לעניין פרשת השבוע
+            const daysToSaturday = (6 - bmGregorianDate.getDay()) % 7;
+            const shabbatDate = new Date(bmGregorianDate);
+            shabbatDate.setDate(shabbatDate.getDate() + daysToSaturday);
+            const shabbatHDate = new HDate(shabbatDate);
+
+            const sedra = new Sedra(shabbatHDate.getFullYear(), true); // true = מנהג ארץ ישראל
+            const parasha = sedra.getString(shabbatHDate, 'he');
+
+            return {
+                birthHebrewDate: birthHDate.renderGematriya(),
+                barMitzvahHebrewDate: bmHDate.renderGematriya(),
+                barMitzvahGregorianDate: bmGregorianDate.toISOString().split('T')[0],
+                parashatHashavua: parasha || "שבת מיוחדת"
+            };
+        }
+    </script>
+</body>
+</html>
